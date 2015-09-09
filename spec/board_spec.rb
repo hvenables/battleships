@@ -3,12 +3,12 @@ require 'board.rb'
 describe Board do
 
   it 'should respond to receive_ship' do
-    is_expected.to respond_to(:receive_ship).with(1).argument
+    is_expected.to respond_to(:place).with(1).argument
   end
 
   it 'should have an instance of ship on board' do
     ship1 = Ship.new "A1"
-    subject.receive_ship(ship1)
+    subject.place(ship1)
     expect(subject.ship_array).to include(ship1)
   end
 
@@ -31,9 +31,7 @@ describe Board do
   # end
 
   it 'Reports missed when no ship in position targetted' do
-    ship = Ship.new('A1')
-    subject.ship_array << ship
-    expect(subject.fire("A2")).to eq(["Missed", "Still in the game"])
+    expect(subject.target("A2")).to eq(["Missed", "Game Over"])
   end
 
   # it 'Reports Hit when ship in position targetted' do
@@ -45,19 +43,20 @@ describe Board do
   it 'Updates damage on the ship when hit' do
     ship = Ship.new('A1')
     subject.ship_array << ship
-    subject.fire('A1')
+    subject.target('A1')
     expect(ship.damage).to eq(1)
   end
 
-  it 'Reports that not all ships are sunk' do
-    ship = Ship.new('A1')
-    subject.ship_array << ship
-    expect(subject.status).to eq("Still in the game")
-  end
+  # it 'Reports that not all ships are sunk' do
+  #   ship = Ship.new('A1')
+  #   subject.ship_array << ship
+  #   expect(subject.status).to eq("Still in the game")
+  # end
 
   it 'Reports if all ships are sunk' do
     ship = Ship.new ('A1')
     subject.ship_array << ship
-    expect(subject.fire('A1')).to eq(["Hit", "Game Over"])
+    subject.target('A1')
+    expect(subject.all_sunk?).to be true
   end
 end

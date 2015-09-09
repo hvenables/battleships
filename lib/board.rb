@@ -1,7 +1,8 @@
-require '~/Projects/battle_ships/lib/ship.rb'
+require './lib/ship.rb'
 class Board
 
-  attr_reader :ship_array, :hit_array, :missed_array
+  attr_reader :ship_array, :hit_array, :missed_array, :target
+
 
   def initialize
     @ship_array = []
@@ -10,19 +11,22 @@ class Board
     @missed_array = []
   end
 
-  def receive_ship(ship)
+  def place(ship)
     ship_array << ship
   end
 
-  def fire(co)
-    @fire = co
+  def target co
+    @target = co
     receive_hit
     remove_sunk
-    return report_hit, status
   end
 
-  def status
-    all_sunk? ? "Game Over" : "Still in the game"
+  def all_sunk?
+    ship_array.empty?
+  end
+
+  def report_hit
+    been_hit? == false ? "Missed" : "Hit"
   end
 
   private
@@ -37,25 +41,20 @@ class Board
   end
 
   def receive_hit
-    ship_array.each do |ship|
-      if ship.position == @fire
-        @hit_array << @fire
+    ship_array.find do |ship|
+      if ship.position == @target
+        @hit_array << @target
         ship.hit
       else
-        @missed_array << @fire
+        @missed_array << @target
       end
     end
   end
 
   def been_hit?
-    hit_array.one?{ |coordinates| coordinates == @fire }
+    hit_array.one?{ |coordinates| coordinates == @target }
   end
 
-  def report_hit
-    been_hit? == false ? "Missed" : "Hit"
-  end
 
-  def all_sunk?
-    ship_array.empty?
-  end
+
 end
