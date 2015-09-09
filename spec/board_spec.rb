@@ -6,39 +6,21 @@ describe Board do
     is_expected.to respond_to(:place).with(1).argument
   end
 
+  it 'should place a ship' do
+    ship = Ship.new('A1')
+    subject.place(ship)
+    expect(subject.ship_array.empty?).to be false
+  end
+
   it 'should have an instance of ship on board' do
-    ship1 = Ship.new "A1"
+    ship1 = Ship.new('A1')
     subject.place(ship1)
     expect(subject.ship_array).to include(ship1)
   end
 
-  # it 'can expect method receive_hit' do
-  #   is_expected.to respond_to :receive_hit
-  # end
-
-  # it 'can actually receive hits' do
-  #   ship = Ship.new('A1')
-  #   subject.ship_array << ship
-  #   subject.fire("A1")
-  #   expect(ship.damage).to be_true
-  # end
-
-  # it 'can actually receive Missed' do
-  #   ship = Ship.new('A1')
-  #   subject.ship_array << ship
-  #   subject.fire("A2")
-  #   expect(subject.receive_hit).to be_falsey
-  # end
-
   it 'Reports missed when no ship in position targetted' do
-    expect(subject.target("A2")).to eq(["Missed", "Game Over"])
+    expect(subject.target("A2")).to be_falsey
   end
-
-  # it 'Reports Hit when ship in position targetted' do
-  #   ship = Ship.new('A1')
-  #   subject.ship_array << ship
-  #   expect(subject.fire("A1")).to eq(["Hit", "Still in the game"])
-  # end
 
   it 'Updates damage on the ship when hit' do
     ship = Ship.new('A1')
@@ -47,16 +29,31 @@ describe Board do
     expect(ship.damage).to eq(1)
   end
 
-  # it 'Reports that not all ships are sunk' do
-  #   ship = Ship.new('A1')
-  #   subject.ship_array << ship
-  #   expect(subject.status).to eq("Still in the game")
-  # end
+  it 'Reports if hits are successful' do
+    ship = Ship.new('A1')
+    subject.place(ship)
+    subject.target('A1')
+    expect(subject.report_hit).to eq('Hit')
+  end
+
+  it 'Reports if hits are unsuccessful' do
+    ship = Ship.new('A1')
+    subject.place(ship)
+    subject.target('A2')
+    expect(subject.report_hit).to eq('Missed')
+  end
 
   it 'Reports if all ships are sunk' do
     ship = Ship.new ('A1')
     subject.ship_array << ship
     subject.target('A1')
     expect(subject.all_sunk?).to be true
+  end
+
+  it 'Reports if not all ships are sunk' do
+    ship = Ship.new ('A1')
+    subject.ship_array << ship
+    subject.target('A2')
+    expect(subject.all_sunk?).to be false
   end
 end

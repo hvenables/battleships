@@ -1,8 +1,6 @@
 require './lib/ship.rb'
 class Board
-
   attr_reader :ship_array, :hit_array, :missed_array, :target
-
 
   def initialize
     @ship_array = []
@@ -12,10 +10,10 @@ class Board
   end
 
   def place(ship)
-    ship_array << ship
+      ship_array << ship
   end
 
-  def target co
+  def target(co)
     @target = co
     receive_hit
     remove_sunk
@@ -26,7 +24,7 @@ class Board
   end
 
   def report_hit
-    been_hit? == false ? "Missed" : "Hit"
+    been_hit? == false ? 'Missed' : 'Hit'
   end
 
   private
@@ -52,9 +50,6 @@ class Board
   end
 
   def been_hit?
-    hit_array.one?{ |coordinates| coordinates == @target }
+    hit_array.one? { |coordinates| coordinates == @target }
   end
-
-
-
 end
