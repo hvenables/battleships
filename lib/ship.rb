@@ -11,4 +11,8 @@ class Ship
     @damage += 1
   end
 
+  def sunk?
+    damage == 1
+  end
+
 end

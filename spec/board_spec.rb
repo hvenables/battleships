@@ -33,14 +33,14 @@ describe Board do
   it 'Reports missed when no ship in position targetted' do
     ship = Ship.new('A1')
     subject.ship_array << ship
-    expect(subject.fire("A2")).to eq("Missed")
+    expect(subject.fire("A2")).to eq(["Missed", "Still in the game"])
   end
 
-  it 'Reports Hit when ship in position targetted' do
-    ship = Ship.new('A1')
-    subject.ship_array << ship
-    expect(subject.fire("A1")).to eq("Hit")
-  end
+  # it 'Reports Hit when ship in position targetted' do
+  #   ship = Ship.new('A1')
+  #   subject.ship_array << ship
+  #   expect(subject.fire("A1")).to eq(["Hit", "Still in the game"])
+  # end
 
   it 'Updates damage on the ship when hit' do
     ship = Ship.new('A1')
@@ -53,5 +53,11 @@ describe Board do
     ship = Ship.new('A1')
     subject.ship_array << ship
     expect(subject.status).to eq("Still in the game")
+  end
+
+  it 'Reports if all ships are sunk' do
+    ship = Ship.new ('A1')
+    subject.ship_array << ship
+    expect(subject.fire('A1')).to eq(["Hit", "Game Over"])
   end
 end

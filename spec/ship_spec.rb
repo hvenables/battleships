@@ -17,4 +17,9 @@ describe Ship do
       ship.hit
       expect(ship.damage).to eq(1)
     end
+    it 'Can sink ships' do
+      ship = Ship.new('A1')
+      ship.hit
+      expect(ship.sunk?).to be true
+    end
 end
