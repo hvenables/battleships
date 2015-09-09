@@ -39,7 +39,7 @@ class Board
   def receive_hit
     ship_array.each do |ship|
       if ship.position == @fire
-        @hit_array << ship.position
+        @hit_array << @fire
         ship.hit
       else
         @missed_array << @fire
