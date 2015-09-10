@@ -22,10 +22,15 @@ describe Board do
     expect(subject.ship_array.empty?).to be false
   end
 
-  it 'should place a ship which overlaps another ship' do
+  it 'shouldn\'t place a ship which overlaps another ship' do
     overlapping_ship = double(:ship, position: [[0,0]])
     subject.place(ship)
-    expect { subject.place(overlapping_ship) }.to raise_error 'Ship overlaps an existing ship'
+    expect { subject.place(overlapping_ship) }.to raise_error 'Ship cannot be placed there'
+  end
+
+  it 'shouldn\'t place a ship of the board' do
+    offmap_ship = double(:ship, position: [[0,11]])
+    expect { subject.place(offmap_ship) }.to raise_error 'Ship cannot be placed there'
   end
 
   it 'should have an instance of ship on board' do

@@ -16,13 +16,16 @@ class Player
   end
 
   def fire(co)
-    board.target(co)
-    "#{board.report_hit}, #{status}"
+    if (board.hit_array.concat(board.missed_array)).include?(co)
+      'Cannot fire on the same coordinates'
+    else
+      board.target(co)
+      "#{board.report_hit}, #{status}"
+    end
   end
 
   def status
     fail 'Game Over' if board.all_sunk?
     'Still in the game'
   end
-
 end

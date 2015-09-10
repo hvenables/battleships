@@ -31,6 +31,12 @@ describe Player do
     expect(subject.fire([0,0])).to eq("Hit, Still in the game")
   end
 
+  it 'Wil not let you fire in the same coordinates twice' do
+    subject.place(ship1)
+    subject.fire([0,0])
+    expect(subject.fire([0,0])).to eq("Cannot fire on the same coordinates")
+  end
+
   it 'can actually receive Missed' do
     subject.place(ship)
     subject.place(ship1)

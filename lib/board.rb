@@ -12,6 +12,12 @@ class Board
   end
 
   def place(ship)
+
+    fail 'Ship cannot be placed there' unless in_bounds?(ship)
+
+    ship_array.each do |i|
+      fail 'Ship cannot be placed there' if overlapped?(i, ship)
+    end
     ship_array << ship
     # Tests go here...
   end
@@ -56,18 +62,16 @@ class Board
     hit_array.one? { |coordinates| coordinates == @target }
   end
 
-  # def in_bounds?(ship)
-  # ship.position.each do |coordinates|
-  #   coordinates.each do |i|
-  #     return false if i > (length - 1)
-  #   end
-  # end
+  def in_bounds?(ship)
+  ship.position.each do |coordinates|
+    coordinates.each do |i|
+      return false if i > (@length - 1)
+    end
+  end
+    true
+  end
 
-  #   true
-  # end
-
-  # def overlapped?(ship1, ship2)
-  #   !( (ship1.position & ship2.position).empty? )
-  # end
-
+  def overlapped?(ship1, ship2)
+    (ship1.position & ship2.position).any?
+  end
 end
