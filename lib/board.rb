@@ -10,7 +10,7 @@ class Board
   end
 
   def place(ship)
-      ship_array << ship
+    ship_array << ship
   end
 
   def target(co)
@@ -40,7 +40,7 @@ class Board
 
   def receive_hit
     ship_array.find do |ship|
-      if ship.position == @target
+      if ship.position.include?(@target)
         @hit_array << @target
         ship.hit
       else
