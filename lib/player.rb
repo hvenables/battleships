@@ -4,15 +4,11 @@ class Player
   attr_reader :board
 
   def initialize
-    @board = Board.new
+    @board = Board.new(10)
   end
 
   def place(_ship)
-    if _ship.is_a? Ship
-      board.place(_ship)
-    else
-      return 'Please pass a ship in'
-    end
+    board.place(_ship)
   end
 
   def report

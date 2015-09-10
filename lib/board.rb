@@ -1,8 +1,10 @@
 require './lib/ship.rb'
+
 class Board
   attr_reader :ship_array, :hit_array, :missed_array, :target
 
-  def initialize
+  def initialize(length)
+    @length = length
     @ship_array = []
     @sunk_array = []
     @hit_array = []
@@ -11,6 +13,7 @@ class Board
 
   def place(ship)
     ship_array << ship
+    # Tests go here...
   end
 
   def target(co)
@@ -52,4 +55,19 @@ class Board
   def been_hit?
     hit_array.one? { |coordinates| coordinates == @target }
   end
+
+  # def in_bounds?(ship)
+  # ship.position.each do |coordinates|
+  #   coordinates.each do |i|
+  #     return false if i > (length - 1)
+  #   end
+  # end
+
+  #   true
+  # end
+
+  # def overlapped?(ship1, ship2)
+  #   !( (ship1.position & ship2.position).empty? )
+  # end
+
 end

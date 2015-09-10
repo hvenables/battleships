@@ -2,10 +2,17 @@ require 'ship.rb'
 
 describe Ship do
 
-  subject {Ship.new([0,0])}
+  subject { Ship.new(1, [0,0], 'N') }
 
-  it 'has a position when created' do
-    expect(subject.position).to eq([0,0])
+  ship1 = Ship.new(3, [0,0], 'N')
+  ship2 = Ship.new(3, [4,4], 'W')
+
+  it 'occupies the right cells when created facing north' do
+    expect(ship1.position).to eq([[0,0], [0,1], [0,2]])
+  end
+
+  it 'occupies the right cells when created facing west' do
+    expect(ship2.position).to eq([[4,4], [3,4], [2,4]])
   end
 
   describe "#hits"
